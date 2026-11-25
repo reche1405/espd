@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+   {% block hero %}
+     
+
+    <section class="hero short">
+        <div class="slider dark">
+            {% if location.featured_image %}
+                <img alt="{{ location.title }}" title="{{ location.title }}" src="{{ location.featured_image }}"/>
+            {% else %}
+                <img alt="{{ location.title }}" title="{{ location.title }}" src="{% if location.area.featured_image %}{{ location.area.featured_image.get_absolute_url() }}{% else %}/static/img/slider/areas-placeholder.jpg{% endif %}"/>
+            {% endif %}
+        </div>
+        <div class="hero__body content grid center-y g-3 full-height col-2 pt-4">
+            <div>
+                <h1 class="display white-text x-large-text">{{ location.title }}</h1>
+                <p class="white-text my-6 sm-my-3">We offer a wide range of services in {{ location.title }}, {{location.area.title}}</p>
+                
+            </div>
+            <div class="sm-hide lg-hide md-hide">
+                <div class="hero-children card-stack">
+                    <div class="card clear p-3 ">
+                        <h3 class="gold-text caps small-text spaced-text">Common </h3>
+                        <p class="white-text">{{location.short_description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+       {% endblock hero %}
+    {% block main %}
+
+    <section class="light pt-4">
+        {% for category in categories %}
+            <div class="contnt">
+            <h2 class="inline-auto text-center mt-6 large-text display">{{category.title}}</h2>
+            </div>
+            <div class="grid content col-3 md-col-2 py-4 mt-3 g-4 sm-g-2">
+                {% for service in category.services %}
+                
+                <div class=" round-1">
+                    <div class="card no-border shadow-3">
+                        <div class="card__image">
+                            {% if service.featured_media %}
+                            <img alt="{{ service.title }}" title="{{ service.title }}" src="{{ service.featured_media.get_absolute_url() }}"/>
+                            {% else %}
+                            <img  src="/static/img/slider/service-placeholder.jpg" alt="{{ service.title }}" title="{{ service.title }}"/>
+                            {% endif %}
+                            <div class="card__image-overlay">
+                                <div class="full-width flex gold-text  g-3 pt-2">
+                                    {{ service.svg|safe }}
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                        <div class="pl-2 pr-3">
+
+                            <h2 class="mt-4 normal-weight mb-1 wrap-pretty display pt-2" style="font-size:1.55rem; letter-spacing: 0.05rem; line-height:1;">{{ service.title }} in {{ location.title }}</h2>
+                            <p class="pr-3">{{ service.short_desc }}</p>
+                            
+                                <a href="/services/{{service.slug}}/{{location.slug}}" class="semi-bold caps gold-text mb-2">MORE INFO</a>
+                        
+                        </div>
+                    
+                </div>
+                    {% endfor %}
+            </div>
+        {% endfor %}
+    </section>
+
+    <section class="dark">
+        <div class="grid content col-2--right g-6 py-6">
+            <div>
+                <h3 class="small-text spaced-text gold-text semi-bold caps">Surrounding Areas</h3>
+                <h2 class="display white-text large-text">Working in {{ location.area.title }} and Surrounding Areas</h2>
+                <p class="white-text my-6">Servicable areas in the surrounding region in {{ location.area.title }}.</p>
+            </div>
+            <div>
+
+                <div class="grid col-2 g-6">
+                    {% for related in location.area.locations %}
+                    {% if related.id != location.id %}
+                    
+                        <div class="card clear p-5 shadow-4">
+                            <h3 class="small-text spaced-text gold-text caps">Location</h3>
+                            <h3 class="mt-2 mb-4">{{ related.title }}</h3>
+                            <a class="cta secondary" href="/locations/{{ related.slug }}">View location</a>
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+  {% endblock main %}

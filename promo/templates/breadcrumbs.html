@@ -1,0 +1,45 @@
+<div class="breadcrumbs">
+    <div class="content flex row g-4 py-2 wrap center-y">
+        <a title="Home" href="/">Home</a>
+       {% if page %}
+            {% if page.tag == "Services" %}
+                    <span>Services</span>
+                {% elif page.tag == "Projects" %}
+                    <span>Projects</span>
+                {% elif page.tag == "Areas" %}
+                    <span>Areas</span>
+                {% elif page.tag == "Contact" %}
+                    <span>Contact</span>
+                {% elif page.tag == "Blog" %}
+                    <span>Blog</span>
+            {% endif %}  
+        {% elif project %}    
+            <a title="Projects" href="/projects">Projects</a>
+            <span>{{ project.title|truncate(10) }}</span>
+         {% elif area %}
+            <a title="Areas" href="/areas">Areas</a>
+            <span>{{ area.title }}</span>
+        {% elif service and location %}
+            <a title="Services" href="/services">Services</a>
+
+            <span>{{ service.title|truncate(10) }}</span>
+         {% elif service %}
+            <a title="Services" href="/services">Services</a>
+            <span>{{ service.title|truncate(10) }}</span>
+        {% elif article %}
+            <a title="Blog" href="/blog">Blog</a>
+            <span>{{ article.title|truncate(10) }}</span>
+            {% elif location %}
+            <a title="Areas" href="/areas">Areas</a>
+             <a title="{{ location.area.title }}" href="/areas/{{ location.area.slug }}">{{ location.area.title }}</a>
+            <span>{{ location.title|truncate(10) }}</span>
+        {% elif policy %}
+            <span>{{ policy.title }}</span>
+        {% elif unit %}
+            <a title="Projects" href="/projects">Projects</a>
+                <a title="{{ unit.project.title }}" href="/projects/{{ unit.project.slug }}">{{ unit.project.title|truncate(10) }}</a>
+            <span>{{ unit.title|truncate(10) }}</span>
+        {% endif %} 
+
+    </div>
+</div>  

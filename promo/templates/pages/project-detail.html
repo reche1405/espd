@@ -1,0 +1,173 @@
+
+{% extends 'base.html' %}
+{% block hero %}
+    <section class="hero short">
+        <div class="slider dark">
+            {% if project.featured_media %}
+                <img alt="{{ project.title }}" title="{{ project.title }}" src="{{ project.featured_media.get_absolute_url() }}"/>
+            {% else %}
+                <img alt="{{ project.title }}" title="{{ project.title }}" src="/static/img/slider/rok-van-hero.jpg"/>
+            {% endif %}
+        </div>
+        <div class="hero__body content grid center-y g-3 full-height col-2 pt-4">
+            <div>
+                <h1 class="display white-text x-large-text">{{ project.title }}</h1>
+                <p class="white-text my-6 sm-my-3">{{ project.short_desc }}</p>
+                
+            </div>
+            <div>
+
+                {% if project.tag.value != 'Large Scale' %}
+                <div class="card clear px-3 pb-3 pt-1 inline-auto">
+                    <h3 class="gold-text caps small-text spaced-text">A Collection</h3>
+                    <p class="white-text">
+                        A collection of {{ project.tag.value }} projects, each with its own unique design and character, but all sharing a common thread of quality and attention to detail.
+                    </p>
+                </div>
+                {% elif project.review %}
+                <div class="card clear px-3 pb-3 pt-1 review-card inline-auto">
+                    <div class="flex align-center space-between">
+                        <h3 class="gold-text caps small-text spaced-text">Client Review</h3>
+                        <div class="flex g-2 align-center white-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9a7441" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star-icon lucide-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+                            <span class="semi-bold">{{ project.review.rating }}</span>
+                        </div>
+                    </div>
+                    <p class="review white-text">{{ project.review.text }}</p>
+                </div>
+                {% else %}
+
+                <div class="hero-children card-stack">
+                    <div class="card clear p-3">
+                        <h3 class="gold-text caps small-text spaced-text">Project type</h3>
+                        <p class="white-text">{{ project.type or "Residential" }}</p>
+                    </div>
+                    <div class="card clear p-3">
+                        <h3 class="gold-text caps small-text spaced-text">Location</h3>
+                        <p class="white-text">{{ project.location.title }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endblock hero %}
+    {% block main %}
+
+    <section class="light pb-6 pt-6 my-6">
+        <div class="grid content pb-4 pt-6 g-6 text-center justify-center">
+            <div>
+                <div class="text-center">
+                    <h3 class="small-text spaced-text gold-text semi-bold caps">About the Project</h3>
+                    <h2 class="display large-text pb-3 pt-1 mx-auto">Project Overview</h2>
+                    {% set paras = project.desc.split('\n') %}
+                    <p class="px-2">
+                        {% for para in paras %}
+                            <span class="block">{{ para }}</span>
+                        {% endfor %}
+                    </p>
+                    <div class="flex wrap g-2 pt-4 mt-4 justify-center">
+                        {% for service in project.services %}
+                            <span title="{{ service.title }}" class="card__tag white-text">{{ service.title|truncate(12) }}</span>
+                        {% endfor %}
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dark py-4 no-pad">
+        <div class=" content py-6  align-center text-center">
+            <div class="pb-5">
+                <h3 class="small-text spaced-text gold-text semi-bold caps">Gallery</h3>
+                    <h2 class="display large-text inline-auto">The finished space in detail</h2>
+            </div>
+            <div class="gallery-frame">
+                <div class="carousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Slides will be dynamically inserted here -->
+                    </div>
+                    <button class="nav-arrow prev" id="prevBtn">◀</button>
+                    <button class="nav-arrow next" id="nextBtn">▶</button>
+                    <div class="carousel-overlay">
+                        <button class="carousel-play-pause" id="playPauseBtn">
+                            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div>
+
+                    <div class="gallery-selector__viewbox">
+                        <div class="gallery-selector__scrollbox" id="thumbnailContainer">
+                            <!-- Thumbnails will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+            
+    </section>
+{% if project.units %}
+  
+<section class="dark pt-3">
+    <div class="grid content py-6 sm-py-3 g-6 sm-g-3 col-2 align-center">
+        <div>
+            <span class="small-text spaced-text gold-text semi-bold caps">Units</span>
+            <h2 class="display white-text large-text">A deeper Dive</h2>
+            <p class="white-text">{{ project.delivery or "Clear communication, careful sequencing and finish quality kept the build on track and aligned to the client’s expectations." }}</p>
+        </div>
+        <div >
+            
+        </div>
+    </div>
+    <div class="grid content pb-6 col-3 g-2">
+        {% if project.units %}
+          
+            {% for unit in project.units %}
+            <div class="card clear">
+                <a href="/projects/{{ unit.project.slug }}/{{ unit.slug }}" title="{{ unit.title }}">
+                    <div class="card__image">
+                        {% if unit.featured_media %}
+                        <img loading="lazy" src="{{ unit.featured_media.get_absolute_url() }}" title="{{unit.featured_media.title or unit.title + ' Media'}} " alt="{{unit.featured_media.title or unit.title + ' Media'}}">                      
+                        {% endif %}
+                        <div class="card__image-overlay">
+                            <h2 class="mt-2 normal-weight mb-1 wrap-pretty" style="font-size:1.15rem;">{{ unit.title }}</h2>
+                        </div>
+                    </div>
+                    
+                </a>
+            </div>
+
+            {% endfor %}
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+   {% endblock main %}
+
+   {% block extra_scripts %}
+   <script>
+    const carouselData = {{ carousel|tojson|safe }};
+    console.log(carouselData);
+    document.addEventListener('DOMContentLoaded', () => {
+            const carousel = new InfiniteCarousel({
+                autoPlayInterval: carouselData.auto_play_interval,
+                items: carouselData.items,
+                orientation: carouselData.orientation,
+            });
+            
+            // Make carousel available globally for debugging (optional)
+            window.carousel = carousel;
+        });
+
+   </script>
+   {% endblock extra_scripts %}

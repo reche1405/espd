@@ -1,0 +1,137 @@
+
+{% extends 'base.html' %}
+{% block hero %}
+    <section class="hero short">
+        <div class="slider dark">
+            {% if unit.featured_media %}
+                <img alt="{{ unit.title }}" title="{{ unit.title }}" src="{{ unit.featured_media.get_absolute_url() }}"/>
+            {% else %}
+                <img alt="{{ unit.title }}" title="{{ unit.title }}" src="/static/img/slider/rok-van-hero.jpg"/>
+            {% endif %}
+        </div>
+        <div class="hero__body content grid center-y g-3 full-height col-2 pt-4">
+            <div>
+                <h3 class="small-text gold-text semi-bold spaced-text caps">{{ unit.project.title }}</h3>
+                <h1 class="display white-text x-large-text">{{ unit.title }}</h1>
+                <p class="white-text my-6 sm-my-3">{{ unit.project.short_desc }}</p>
+                
+            </div>
+            <div>
+                <div class="hero-children card-stack">
+                    <div class="card clear p-3">
+                        <h3 class="gold-text caps small-text spaced-text">Project</h3>
+                        <p class="white-text">{{ unit.project.type or "Residential" }}</p>
+                    </div>
+                    <div class="card clear p-3">
+                        <h3 class="gold-text caps small-text spaced-text">Location</h3>
+                        <p class="white-text">{{ unit.project.location.title }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock hero %}
+    {% block main %}
+
+
+
+    <section class="soft py-4 no-pad">
+        <div class=" content py-6 g-6 align-center text-center">
+           
+            
+                <h3 class="small-text spaced-text gold-text semi-bold caps">Gallery</h3>
+                    <h2 class="display large-text inline-auto">A collection of images</h2>
+                <p class="inline-auto text-center">{{ unit.gallery_intro or "A closer look at the unit, and how it was delivered." }}</p>
+        
+        </div>
+
+        
+        
+        <div class="content">
+            <div class="gallery-frame">
+                <div class="carousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Slides will be dynamically inserted here -->
+                    </div>
+                    <button class="nav-arrow prev" id="prevBtn">◀</button>
+                    <button class="nav-arrow next" id="nextBtn">▶</button>
+                    <div class="carousel-overlay">
+                        <button class="carousel-play-pause" id="playPauseBtn">
+                            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div>
+
+                    <div class="gallery-selector__viewbox">
+                        <div class="gallery-selector__scrollbox" id="thumbnailContainer">
+                            <!-- Thumbnails will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+<section class="dark">
+    <div class="grid content py-6 g-6 col-2 align-center">
+        <div>
+            <h3 class="small-text spaced-text gold-text semi-bold caps">In Detail</h3>
+            <h2 class="display white-text large-text">More units from {{ unit.project.title }}</h2>
+        </div>
+        <div >
+            
+        </div>
+    </div>
+    <div class="grid content pb-6 g-2 col-3">
+        
+          
+    {% for other_unit in unit.project.units %}
+    {% if other_unit.id != unit.id %}
+    <div class="card clear">
+        <a href="/projects/{{ other_unit.project.slug }}/{{ other_unit.slug }}" title="{{ other_unit.title }}">
+
+            <div class="card__image">
+                {% if other_unit.featured_media %}
+                <img loading="lazy" src="{{ other_unit.featured_media.get_absolute_url() }}" title="{{other_unit.featured_media.title or other_unit.title + ' Media'}} " alt="{{other_unit.featured_media.title or other_unit.title + ' Media'}}">                      
+                {% endif %}
+                <div class="card__image-overlay">
+                    <h2 class="mt-2 normal-weight mb-1 wrap-pretty" style="font-size:1.15rem;">{{ other_unit.title }}</h2>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endfor %}
+        
+    </div>
+</section>
+
+
+   {% endblock main %}
+
+
+   {% block extra_scripts %}
+   <script>
+    const carouselData = {{ carousel|tojson|safe }};
+    console.log(carouselData);
+    document.addEventListener('DOMContentLoaded', () => {
+        const carousel = new InfiniteCarousel({
+            autoPlayInterval: carouselData.auto_play_interval,
+            items: carouselData.items,
+            orientation: carouselData.orientation,
+        });
+        
+        // Make carousel available globally for debugging (optional)
+        window.carousel = carousel;
+    });
+
+   </script>
+   {% endblock extra_scripts %}

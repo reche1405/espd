@@ -1,0 +1,144 @@
+
+{% extends 'base.html' %}
+{% block hero %}
+
+    <section class="hero short">
+        
+         <div class="slider light">
+            {% if service.featured_media %}
+            <img alt="{{service.title}}" alt="{{service.title}}" title="{{service.title}}" src="{{ service.featured_media.get_absolute_url() }}"/>
+            {% else %}
+            <img  alt="A Van bearing the ROK Group logo." title="A Van bearing the ROK Group logo." src="/static/img/slider/service-placeholder.jpg"/>
+            {% endif %}
+        </div>
+        <div class="hero__body content grid center-y g-3 full-height col-2 pt-4">
+            <div>
+                <h1 class="display  x-large-text">{{ service.title }}</h1>
+                <p class=" my-6 sm-my-3">{{ service.short_desc }}</p>
+            </div>
+            <div>
+                <div class="hero-children card-stack">
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% endblock hero %}
+    {% block main %}
+    <section class="soft pb-6">
+        <div class="grid content pt-4 g-6 col-2--left">
+            <div>
+                <div class="sticky-top">
+                    <h3 class="small-text spaced-text gold-text semi-bold caps">In detail</h3>
+                    <h2 class="display large-text">Overview</h2>
+
+                    <p class="pt-3">{{ service.desc }}</p>
+                </div>
+            </div>
+            <div>
+                {% if service.benefits_list %}
+                    <div class="card white p-4 shadow-4">
+                        <p class=" spaced-text gold-text caps mb-2">Benefits</p>
+                        {% for benefit in service.benefits_list.items %}
+                        <div class="flex row center-y mb-3 g-3 py-1">
+                            <svg  width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#9a7441" stroke-width="2"/>
+                                <path d="M9 12L10.6828 13.6828V13.6828C10.858 13.858 11.142 13.858 11.3172 13.6828V13.6828L15 10" stroke="#9a7441" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <p class=" " style="line-height:1.2; max-width:40ch; padding-left:.5rem;">{{ benefit.text }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% if service.projects.count() > 0 %}
+    <section>
+        <div class="grid content pt-4 g-6 col-2--left">
+            <div>
+                <div class="sticky-top">
+                    <h3 class="small-text spaced-text gold-text semi-bold caps mb-3">Projects</h3>
+                    <h2 class="display large-text">See it in Action</h2>
+                    <p>Some examples of our {{service.title}} projects.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid content pb-6 pt-4 g-6 mb-6 col-3 md-col-2">
+            {% for project in service.projects%}
+            <div class="card white shadow-4">
+                <div class="card__image">
+                    {% if project.featured_media %}
+                        <img alt="{{ project.title }}" title="{{ project.title }}" src="{{ project.featured_media.get_absolute_url() }}"/>
+                    {% else %}
+                        <img  src="/static/img/slider/project-placeholder.jpg" alt="{{ project.title }}" title="{{ project.title }}"/>
+                    {% endif %}
+                    <div class="card__image-overlay gold-text">
+                        <div class="flex g-2 align-center">
+                            {% for service in project.services %}
+                                {{ service.svg|safe }}
+                            {% endfor %}
+                        </div>
+                        
+                    </div>
+                </div>
+                <a href="/projects/{{ project.slug }}" class="card__link">
+                    <div class="card__body py-1 px-4">
+                       
+                            <div class="flex space-between align-start pt-4">
+                                <h2 class="normal-weight display  " style="line-height:1;">{{ project.title }}</h2>
+                                {% if project.featured %}
+                                    <div>
+                                        <span class="card__tag white-text">FEATURED</span>
+                                    </div>
+                                {% else %}
+                           
+                                    <div>
+                                        <span class="card__tag alt caps">{{ project.type or 'Residential' }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                      
+                        
+                        <p class="pb-2 pt-1" style="">{{ project.short_desc|truncate(135) }}</p>
+                            <div class="pb-2">
+                            <span class="caps spaced-text small-text gold-text" >Learn More</span>
+                            </div>
+                            
+                        
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        
+            
+        </div>
+    </section>
+        {% endif %}
+    <section class="dark">
+        <div class="content grid col-2 py-6">
+            <div class="py-3 ">
+                <h3 class="small-text spaced-text gold-text semi-bold caps">Where we work</h3>
+                <h2 class="display white-text large-text">We are available in the following areas</h2>
+                <p class="white-text my-6">Help could be closer than you thought! We cover the entire south east region with intimate knowledge of the local landscape. </p>
+            </div>
+            <div class="grid col-2 g-3">
+
+                {% for area in service_areas %}
+                
+                    <div class="card clear px-3 text-center py-4 shadow-4">
+                            <svg style="margin-inline:auto;" width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z" stroke="#9a7441" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#9a7441" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        <h2 class="mt-2 light-weight">{{ area.title }}</h2>
+                    </div>
+                    
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {% endblock main %}

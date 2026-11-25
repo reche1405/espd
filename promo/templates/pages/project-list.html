@@ -1,0 +1,115 @@
+
+{% extends 'base.html' %}
+{% block hero %}
+    <section class="hero short">
+        <div class="slider dark">
+            <img alt="The Rok Group Van" title="A Van bearing the ROK Group logo." src="static/img/slider/rok-van-hero.jpg"/>
+        </div>
+        <div class="hero__body content grid center-y g-3 full-height col-2 pt-4">
+            <div>
+                <h1 class="display white-text x-large-text">{{ page.title }}</h1>
+                <p class=" white-text my-6 sm-my-3">
+                    {{ page.subtitle }}
+                </p>
+            </div>
+
+            
+        </div>
+    </section>
+    {% endblock hero %}
+    {% block main %}
+    <section class="pale py-6 sm-py-3">
+        
+        <div class="grid content col-3 py-4 mt-3 g-6 sm-g-3 " id="project-list">
+            {% for project in projects %}
+            
+            
+            <div class="card white shadow-4">
+                <div class="card__image">
+                    {% if project.featured_media %}
+                        <img alt="{{ project.title }}" title="{{ project.title }}" src="{{ project.featured_media.get_absolute_url() }}"/>
+                    {% else %}
+                        <img  src="/static/img/slider/project-placeholder.jpg" alt="{{ project.title }}" title="{{ project.title }}"/>
+                    {% endif %}
+                    <div class="card__image-overlay gold-text">
+                        <div class="flex g-2 align-center">
+                            {% for service in project.services %}
+                                {{ service.svg|safe }}
+                            {% endfor %}
+                        </div>
+                        
+                    </div>
+                </div>
+                <a href="/projects/{{ project.slug }}" class="card__link">
+                    <div class="card__body py-1 px-4">
+                       
+                            <div class="flex space-between align-start pt-4">
+                                <h2 class="normal-weight display  " style="line-height:1;">{{ project.title }}</h2>
+                                {% if project.featured %}
+                                    <div>
+                                        <span class="card__tag white-text">FEATURED</span>
+                                    </div>
+                                {% else %}
+                           
+                                    <div>
+                                        <span class="card__tag alt caps">{{ project.type or 'Residential' }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                      
+                        
+                        <p class="pb-2 pt-1" style="">{{ project.short_desc|truncate(135) }}</p>
+                            <div class="pb-2">
+                            <span class="caps spaced-text small-text gold-text" >Learn More</span>
+                            </div>
+                            
+                        
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="content full-width center mt-3">
+            <nav class="pagination">
+                {% if has_prev %}
+                    <a title="Projects Page {{ prev_page_no }}" class="btn" href="?page={{ prev_page_no }}#project-list">{{ prev_page_no }}</a>
+                {% endif %}
+
+                <span class="btn active">{{ page_no }}</span>
+
+                {% if has_next %}
+                    <a title="Projects Page {{ next_page_no }}" class="btn" href="?page={{ next_page_no }}#project-list">{{ next_page_no }}</a>
+                {% endif %}
+            </nav>
+        </div>
+    </section>
+
+    
+    <section class="soft">
+        <div class="grid content col-2--right g-6 py-6">
+            <div class="text-section">
+                        <span class="small-text spaced-text gold-text semi-bold caps">Why this matters</span>
+                <h2 class="display  large-text">Your contractor experience should be stress free</h2>
+                <p class=" my-4">
+                        Our unified approach to construction means that we can keep quality visible
+                        and expectations clear throughout the project. That means a smoother process 
+                        and a better finish.
+                </p>
+            </div>
+            <div class="text-section">
+                <div class="grid col-2 g-3">            
+                    <div class="card soft py-6 px-4 shadow-3 flex col align-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cba968" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-ccw-icon lucide-refresh-ccw"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+                        <span style="font-size: 1.5rem;" class="normal-weight my-4">Unified Process</span>
+                        <p>From start to finish, we manage every aspect of the project in-house. That means a smoother process and a better finish.</p>
+                    </div>
+                    <div class="card soft py-6 px-4 shadow-3 text-center align-center flex col" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cba968" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg>
+                        <span style="font-size: 1.5rem;" class="normal-weight my-4">Proven Quality</span>
+                        <p>Our award-winning standards ensure that every ROK Group project meets the highest expectations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   {% endblock main %}

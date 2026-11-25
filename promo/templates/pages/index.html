@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+   {% block hero %}
+     
+   
+    <section class="hero">
+        <div class="slider dark">
+
+            <div class="slideshow permanent" data-slide-duration="7000" data-transition-duration="1500">
+
+                {% for slide in slides %}
+                <div class="slide" data-slide-number="{{forloop.counter0}}" >
+                    <img class="slide__image" src="{{slide.get_absolute_image_url}}" alt="{{slide.title}}" title="{{slide.title}}"/>
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <picture>
+            <!-- 1. Mobile Screens (Up to 480px wide) -->
+            <source media="(max-width: 480px)" srcset="/static/img/slider/rok-hero-van-mobile.jpg">
+
+            <!-- 2. Tablet Screens (Between 481px and 1024px wide) -->
+            <!-- <source media="(max-width: 1024px)" srcset="static/img/slider/rok-van-tablet.jpg"> -->
+
+            <!-- 3. Desktop Screens / Fallback (Anything larger than 1024px) -->
+            <img src="/static/img/slider/rok-van-hero.jpg" 
+                alt="The Rok Group Van" 
+                title="A Van bearing the ROK Group logo."
+                loading="eager">
+        </picture>
+        </div>
+        <div class="hero__body content grid center-y g-3 full-height col-2 pt-4">
+            <div class="sm-center-y full-width">
+                <h1 class="display white-text x-large-text sm-text-center sm-inline-auto welcome">{{page.title}}</h1>
+                <p class="white-text my-6 sm-text-center sm-inline-auto sm-pt-6 welcome-sub">
+                     {{page.subtitle}}
+                </p>
+                <div class="grid col-2 g-3 center-y text-center hero-actions">
+                    <a href="/contact" class="cta primary" title="Request a consultation">GET CONSULTATION</a>
+                    <a href="/projects" class="cta secondary" title="View our featured projects">FEATURED WORK</a>
+                </div>
+            </div>
+
+            <div class="sm-hide">
+                <div class="hero-children card-stack">
+                    {% for item in hero_list.items  %}
+                       <div class="card clear px-3 pt-3 pb-4 ">
+                            <h3 class="gold-text caps small-text spaced-text">{{ item.text }}</h3>
+                            <p class="white-text"> {{item.subtext}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="dark pb-4" style="padding:0;">
+        <div class="grid col-4 g-4 pt-2 pb-4 px-2 hero-footer">
+            {% for item in why_rok.items  %}
+                    
+                <div class="card clear lg-transparent p-3 sm-p-0 hero-footer__card">
+                    {% if item.svg %}
+                    {{ item.svg|safe }}
+                
+                    {% endif %}
+                    <div>
+                    <span class="gold-text caps small-text spacedish-text"> {{ item.text }} </span>
+                    <p class="white-text"> {{item.subtext}} </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% endblock hero %}
+    {% block main %}
+      
+    
+    <section class="soft pb-6">
+        <div class="grid content pt-6 g-6 col-2--right md-collapse">
+            <div  class="text-section">
+                <div class="sticky-top">
+                    <h3 class="small-text spaced-text gold-text semi-bold caps">what we do</h3>
+                    <h2 class="display large-text">
+                        TOTAL CONSTRUCTION INTELLIGENCE
+                    </h2>
+                    <p class="pt-4">
+                        From initial topographical survey and cost planning to heavy plant operations and fine architectural decorating, The Rok Group provides a completely unified approach to construction.
+                    </p>
+                    <div class="grid col-2 md-collapse mt-3">
+                    <a title="Explore our services" href="/services" class="cta ternary mt-4">
+                        
+                        <span>EXPLORE SERVICES</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="grid col-2 my-4 g-4">
+                    {% for service in services %}
+                
+                    <div class=" round-1 animate-on-scroll">
+                            <div class="card no-border shadow-3">
+                                <div class="card__image">
+                                    {% if service.featured_media %}
+                                    <img alt="{{ service.title }}" title="{{ service.title }}" src="{{ service.featured_media.get_absolute_url() }}"/>
+                                    {% else %}
+                                    <img  src="/static/img/slider/service-placeholder.jpg" alt="{{ service.title }}" title="{{ service.title }}"/>
+                                    {% endif %}
+                                    <div class="card__image-overlay">
+                                        <div class="full-width flex gold-text  g-3 pt-2">
+                                            {{ service.svg|safe }}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="pl-2 pr-3">
+
+                                <h2 class="mt-4 normal-weight mb-1 wrap-pretty display pt-2" style="font-size:1.55rem; letter-spacing: 0.05rem; line-height:1;">{{ service.title }}</h2>
+                                <p class="pr-3">{{ service.short_desc }}</p>
+                                
+                                    <a href="/services/{{service.slug}}" class="semi-bold caps gold-text mb-2">MORE INFO</a>
+                            
+                            </div>
+                        
+                    </div>
+                    {% endfor %}
+                
+                   
+                    
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="light pt-4">
+        <div class="grid content py-6 sm-py-3 g-6 sm-g-3 col-2 md-collapse align-center">
+            <div class="text-section">
+                <div class="sticky-top">
+                    <h3 class="small-text spaced-text gold-text semi-bold caps">Featured Protfolio</h3>
+                    <h2 class="display large-text">
+                        A selection of our recent work
+                    </h2>
+                </div>
+            </div>
+            <div class="text-section">
+                <p>
+                    Our portfolio demonstrates how we sequence heavy groundworks, structural engineering, and master-tier finishing trades under a single management framework.
+                </p>
+                    <div class="grid col-2 g-6 mt-3">
+                        <a title="Explore our projects" href="/projects" class="cta ternary mt-4">
+                            
+                            <span>EXPLORE PROJECTS</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        
+                        </a>
+                    </div>
+            </div>
+        </div>
+        <div class="grid content py-4 sm-py-2 g-6 sm-g-3 mb-6 col-3 md-col-2">
+            {% for project in projects%}
+            <div class="card white pb-3 shadow-4 animate-on-scroll">
+                <div class="card__image">
+                    {% if project.featured_media %}
+                    <img alt="{{ project.title }}" title="{{ project.title }}" src="{{ project.featured_media.get_absolute_url() }}"/>
+                    {% else %}
+                        <img  src="/static/img/slider/project-placeholder.jpg" alt="{{ project.title }}" title="{{ project.title }}"/>
+                    {% endif %}
+
+                    <div class="card__image-overlay gold-text">
+                        <div class="flex g-2 align-center">
+                            {% for service in project.services %}
+                                {{ service.svg|safe }}
+                            {% endfor %}
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="card__body pb-3 px-3">
+                    <div class="flex space-between align-center">
+                    <h3 class="small-text spaced-text gold-text semi-bold caps pt-3 " style="line-height:1;">{{project.type}}</h3>
+                </div>
+                <a href="/projects/{{ project.slug }}" ><h2 class=" normal-weight">
+                    <span class="display spacedish-text">{{ project.title }}</span>
+                </h2></a>
+                <p class="">
+                    {{ project.desc|truncate(150) }}
+                </p>
+                </div>
+                
+            </div>
+            {% endfor %}
+           
+        </div>
+    </section>
+    
+    <section class="soft">
+        <div class="grid content py-6 sm-py-3 g-6 sm-g-3 col-2 md-collapse align-center">
+            <div class="text-section ">
+                <div class="card sm-hide no-border sticky-top full-height">
+                    <div class="pt-6 grid justify-center " >
+                        <img src="/static/img/logo.png" class="img-fluid" alt="The ROK Group Logo", title="Our Process">
+                        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="text-section">
+                <div class="">
+                    <h3 class="small-text spaced-text gold-text semi-bold caps">Our Process</h3>
+                    <h2 class="display large-text">
+                        A clear path to a polished finish
+                    </h2>
+                    <ol class="process">
+                        
+                        <li class="process__item">
+                            <span class="mb-1 mt-3 caps semi-bold display spacedish-text ">Initial consultation</span>
+                            <p class="">We discuss your plans, priorities, timescales and the kind of project you visualise.</p>
+                        </li>
+                        <li class="process__item">
+                            <span class="mb-1 mt-3 caps semi-bold display spacedish-text ">Scope and programme</span>
+                            <p class="">We define the project clearly, outline likely sequencing and create a realistic route to delivery.</p>
+                        </li>
+                        <li class="process__item">
+                            <span class="mb-1 mt-3 caps semi-bold display spacedish-text ">Build and coordinate</span>
+                            <p class="">The site is managed carefully with close attention to workmanship, communication and programme control.</p>
+                        </li>
+                        <li class="process__item">
+                            <span class="mb-1 mt-3 caps semi-bold display spacedish-text ">Finish and handover</span>
+                            <p class="">Final details are reviewed properly so the completed space feels resolved, polished and ready to use.</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="light">
+        <div class="grid content py-6 my-3 g-6 col-2--right md-collapse align-center">
+            <div class="text-section">
+                <div>
+                    <h3 class="small-text spaced-text gold-text semi-bold caps">Where we work</h3>
+                    <h2 class="display large-text">
+                        Locations across the South East
+                    </h2>
+                    <p>
+                        We support homeowners and businesses across Sussex, Surrey, Kent and Greater London who want a residential contractor that combines careful site management with a polished, high-quality finish.
+                    </p>
+                </div>
+            </div>
+            <div class="grid col-2 g-3">
+                {% for area in areas %} 
+               
+                    <div class="card soft p-4">
+                        <div class="flex space-between align-center">
+                            <div class="icon-block pale">
+                                <img
+                                        src="/static/svg/location.svg"
+                                        alt="triangle with all three sides equal"
+                                        height="30"
+                                        width="30" />
+                            </div>
+                        </div>
+                        <h2 class="my-2 normal-weight">{{ area.title }}</h2>
+                        <p class="pb-4">{{ area.short_desc }}</p>
+                    </div>
+            
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="dark">
+        <div class="grid content col-2--right md-collapse g-6 sm-g-3 py-6">
+        <div class="text-section">
+                    <h3 class="small-text spaced-text gold-text semi-bold caps">Contact</h3>
+            <h2 class="display white-text large-text">Let’s build with calculation, control, and clarity.</h2>
+            <p class="white-text my-6 sm-my-3">
+                    Ready to bring structural precision, transparent cost planning, and elite trade execution to your next development? Contact The Rok Group to discuss your upcoming residential, commercial, or civil engineering plans.
+            </p>
+        </div>
+        <div class="card clear p-6 sm-p-0 shadow-4 sm-shadow-0 sm-transparent">
+            <form method="POST" action="/contact">
+                {{form.csrf_token }}
+                <div class="grid col-2 g-3 pb-3">
+                    <div>
+                        <label class="spaced-text caps" for="name">{{form.name.label.text}}</label>
+                            {{form.name}}
+
+                    </div>
+                    <div>
+                        <label class="spaced-text caps" for="email">{{form.email.label.text}}</label>
+                        {{form.email}}
+                    </div>
+                </div>
+                    <label class="spaced-text caps" for="number">{{form.number.label.text}}</label>
+                    {{form.number}}
+
+                    <label class="spaced-text caps" for="message">{{form.message.label.text}}</label>
+                    {{form.message}}
+                    {{form.recaptcha()}}
+                    <p class="small-text pt-2">Share a few details and we will be in touch within two business days.</p>
+                <div class="grid col-2 g-6 mt-3">
+                    <div>
+                        
+                        <button role="submit" class="cta primary">ENQUIRE NOW</button>
+                    </div>
+                </div>
+            </form>
+            <div class="spinner" hidden>
+                <svg viewBox="0 0 50 50" >
+                    <circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="90 150" stroke-dashoffset="0"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    </section>
+    {% endblock main %}
+   
